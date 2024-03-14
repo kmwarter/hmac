@@ -9,7 +9,8 @@ const SERVER_URL = 'http://localhost:8675';
 
 const calculateHMAC = (route, timestamp, body) => {
     const stringifiedBody = body ? JSON.stringify(body) : "";
-    const data = `${route}-${timestamp}-${stringifiedBody}`;
+    const data = `${route}-${stringifiedBody}-${timestamp}`;
+    console.log(data);
     const hmac = crypto.createHmac('sha256', SECRET_KEY);
     hmac.update(data);
     const hmacSignature = hmac.digest('base64');
@@ -208,6 +209,107 @@ async function makeEntreeCancelRequest(entreeId) {
 async function makePowerOnRequest() {
     // Construct the URL for the POST request
     const route = '/state/power-on';
+    const url = `${SERVER_URL}${route}`;
+
+    const timestampInSeconds = Math.floor(new Date().getTime() / 1000);
+
+    const body = null
+
+    // Create the HMAC signature for the request
+    const hmacSignature = calculateHMAC(route, timestampInSeconds, body);
+
+    // Set the HMAC signature in the request headers as well as the timestamp used in it
+    const headers = {
+        'X-Authorization': hmacSignature,
+        'X-Authorization-Timestamp': timestampInSeconds
+    };
+
+    try {
+    console.time("My Call")
+    const response = await axios.post(url, body, { headers });
+    console.timeEnd("My Call")
+    console.log('Status:', response.status);
+    console.log('Data:', response.data);
+    } catch (error) {
+    console.timeEnd("My Call")
+    console.error('Error Message:', error.message);
+    console.error('status:', error.response.status);
+    console.error('statusText:', error.response.statusText);
+    console.error('data:', error.response.data);
+    }
+}
+
+async function makeStartMakelineRequest() {
+    // Construct the URL for the POST request
+    const route = '/state/start';
+    const url = `${SERVER_URL}${route}`;
+
+    const timestampInSeconds = Math.floor(new Date().getTime() / 1000);
+
+    const body = null
+
+    // Create the HMAC signature for the request
+    const hmacSignature = calculateHMAC(route, timestampInSeconds, body);
+
+    // Set the HMAC signature in the request headers as well as the timestamp used in it
+    const headers = {
+        'X-Authorization': hmacSignature,
+        'X-Authorization-Timestamp': timestampInSeconds
+    };
+
+    try {
+    console.time("My Call")
+    const response = await axios.post(url, body, { headers });
+    console.timeEnd("My Call")
+    console.log('Status:', response.status);
+    console.log('Data:', response.data);
+    } catch (error) {
+    console.timeEnd("My Call")
+    console.error('Error Message:', error.message);
+    console.error('status:', error.response.status);
+    console.error('statusText:', error.response.statusText);
+    console.error('data:', error.response.data);
+    }
+}
+
+async function makeSkipRequest() {
+    // Construct the URL for the POST request
+    const route = '/component-install/skip'
+    const url = `${SERVER_URL}${route}`;
+
+    const timestampInSeconds = Math.floor(new Date().getTime() / 1000);
+
+    const body = null
+
+    // Create the HMAC signature for the request
+    const hmacSignature = calculateHMAC(route, timestampInSeconds, body);
+
+    // Set the HMAC signature in the request headers as well as the timestamp used in it
+    const headers = {
+        'X-Authorization': hmacSignature,
+        'X-Authorization-Timestamp': timestampInSeconds
+    };
+
+    try {
+    console.time("My Call")
+    const response = await axios.post(url, body, { headers });
+    console.timeEnd("My Call")
+    console.log('Status:', response.status);
+    console.log('Data:', response.data);
+    } catch (error) {
+    console.timeEnd("My Call")
+    console.error('Error Message:', error.message);
+    console.error('status:', error.response.status);
+    console.error('statusText:', error.response.statusText);
+    console.error('data:', error.response.data);
+    }
+}
+
+
+
+async function makeShutdownRequest() {
+    // Construct the URL for the POST request
+    const route = '/state/prepare-for-shutdown';
     const url = `${SERVER_URL}${route}`;
 
     const timestampInSeconds = Math.floor(new Date().getTime() / 1000);
@@ -500,24 +602,73 @@ async function makeDenesterRequest() {
 
 const entreeId = args[1] || "<entreeId>"
 const entree = {
-    externalOrderId: "12345",
-    externalRecipeId: "23456",
-    externalEntreeId: "34567",
-    name: {
-        full: "Chicken Bowl"
+    "externalOrderId": "08eba8a1-8a14-4a74-b429-6d9ad3db427e",
+    "externalRecipeId": "tempid",
+    "externalEntreeId": "38dd1cb6-838a-4f8a-8b71-bbea56a2d588",
+    "name": {
+        "full": "Chicken Salad"
     },
-    customerName: "Keith Warter",
-    promiseTimeMs: 1669114118000,
-    ingredients: [
+    "customerName": "Patricia - Chkn Salad",
+    "promiseTimeMs": 1710263384000,
+    "ingredients": [
         {
-            externalIngredientId: "45678",
-            name: {
-                full: "Amazing Chicken"
+            "externalIngredientId": "II-CHICKEN",
+            "name": {
+                "full": "II-CHICKEN"
             },
-            multiplier: 1,
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-PINTO-BEANS",
+            "name": {
+                "full": "II-PINTO-BEANS"
+            },
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-BROWN-RICE",
+            "name": {
+                "full": "II-BROWN-RICE"
+            },
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-GREEN-CHILI-SALSA",
+            "name": {
+                "full": "II-GREEN-CHILI-SALSA"
+            },
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-SOUR-CREAM",
+            "name": {
+                "full": "II-SOUR-CREAM"
+            },
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-CHEESE",
+            "name": {
+                "full": "II-CHEESE"
+            },
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-RED-CHILI-SALSA",
+            "name": {
+                "full": "II-RED-CHILI-SALSA"
+            },
+            "multiplier": 1.0
+        },
+        {
+            "externalIngredientId": "II-FAJITA-VEGGIES",
+            "name": {
+                "full": "II-FAJITA-VEGGIES"
+            },
+            "multiplier": 1.0
         }
     ]
-}
+} 
 
 switch (args[0]) {
     case 'health':
@@ -541,7 +692,16 @@ switch (args[0]) {
     case 'on':
         makePowerOnRequest();
         break;
-    case 'off':
+    case 'skip':
+        makeSkipRequest();
+        break;
+    case 'start':
+        makeStartMakelineRequest();
+        break;
+    case 'shutdown':
+        makeShutdownRequest();
+        break;
+    case 'off': 
         makePowerOffRequest();
         break;
     case 'pause':
